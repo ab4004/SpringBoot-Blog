@@ -1,0 +1,7 @@
+let loginObject = {
+	init : function() {
+		
+	},
+}
+
+loginObject.init();

@@ -1,0 +1,65 @@
+package com.spring.blog.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.spring.blog.domain.User;
+import com.spring.blog.dto.ResponseDTO;
+import com.spring.blog.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class UserController {
+	@Autowired
+	private UserService userService;
+
+	/***** 회원가입 *****/
+	@GetMapping("/auth/register")
+	public String register() {
+		return "user/register";
+	}
+
+	@PostMapping("/auth/register")
+	public @ResponseBody ResponseDTO<?> register(@RequestBody User user) {
+		User findUser = userService.getUser(user.getUsername());
+
+		if (findUser.getUsername() == null) {
+			userService.registerUser(user);
+			return new ResponseDTO<>(HttpStatus.OK.value(), user.getUsername() + "님 회원가입에 성공하셨습니다.");
+		}
+
+		return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), "회원가입에 실패하셨습니다.");
+	}
+
+	/***** 로그인 *****/
+	@GetMapping("/auth/login")
+	public String login() {
+		return "user/login";
+	}
+
+	@PostMapping("/auth/login")
+	public @ResponseBody ResponseDTO<?> login(HttpSession session, @RequestBody User user) {
+		User findUser = userService.getUser(user.getUsername());
+
+		if (user.getPassword() != null && user.getPassword().equals(findUser.getPassword())) {
+			session.setAttribute("user", findUser);
+			return new ResponseDTO<>(HttpStatus.OK.value(), "안녕하세요, " + findUser.getUsername() + "님 로그인에 성공하셨습니다.");
+		}
+
+		return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), "로그인에 실패하셨습니다.");
+	}
+
+	/***** 로그아웃 *****/
+	@GetMapping("/auth/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+
+		return "redirect:/";
+	}
+}

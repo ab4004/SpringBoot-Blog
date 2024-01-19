@@ -1,0 +1,20 @@
+let loginObject = {
+	init : function() {
+		let _this = this;
+		
+		$("#btn-login").on("click", () => {
+			_this.login();
+		});
+	},
+	
+	login : function() {
+		let data = {
+			username : $("#username").val(),
+			password : $("password").val()
+		}
+		
+		
+	}
+}
+
+loginObject.init();

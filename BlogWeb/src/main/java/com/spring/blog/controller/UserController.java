@@ -1,0 +1,99 @@
+package com.spring.blog.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.spring.blog.domain.RoleType;
+import com.spring.blog.dto.ResponseDTO;
+import com.spring.blog.exception.BlogException;
+import com.spring.blog.persistence.UserRepository;
+import com.spring.blog.service.UserService;
+import com.spring.blog.user.User;
+
+@Controller
+public class UserController {
+	/*
+	@Autowired
+	private UserRepository userRepository;
+	
+	@PostMapping("/user")
+	public @ResponseBody String insertUser(@RequestBody User user) {
+		user.setRole(RoleType.USER);
+		userRepository.save(user);
+		return user.getUsername() + "님 회원 가입이 완료되었습니다.";
+	}
+	
+	@GetMapping("/user/get/{id}")
+	public @ResponseBody User getUser(@PathVariable int id) {
+		User findUser = userRepository.findById(id).orElseThrow(() -> {
+			return new BlogException(id + "번 회원이 없습니다.");
+		});
+		
+		return findUser;
+	}
+	
+	@PutMapping("/user")
+	public @ResponseBody String updateUser(@RequestBody User user) {
+		User findUser = userRepository.findById(user.getId()).orElseThrow(() -> {
+			return new BlogException(user.getId() + "번 회원이 없습니다.");
+		});
+		
+		findUser.setUsername(user.getUsername());
+		findUser.setPassword(user.getPassword());
+		findUser.setEmail(user.getEmail());
+		userRepository.save(findUser);
+		
+		return "회원 수정 완료";
+	}
+	
+	@DeleteMapping("/user/{id}")
+	public @ResponseBody String deleteUser(@PathVariable int id) {
+		userRepository.deleteById(id);
+		return id + "번 회원이 삭제되었습니다.";
+	}
+	
+	@GetMapping("/user/list")
+	public @ResponseBody List<User> getUserList() {
+		return userRepository.findAll();
+	}
+	
+	@GetMapping("/user/page/{page}")
+	public @ResponseBody Page<User> getUserListPaging(@PathVariable int page) {
+		Pageable pageable = PageRequest.of(page, 2, Direction.DESC, "id", "username");
+		return userRepository.findAll(pageable);
+	}
+	*/
+	
+	@Autowired
+	private UserService userService;
+	
+	@GetMapping("/auth/insertUser")
+	public String insertUser() {
+		return "user/insertUser";
+	}
+	
+	@PostMapping("/auth/insertUser")
+	public @ResponseBody ResponseDTO<?> insertUser(@RequestBody User user) {
+		User findUser = userService.getUser(user.getUsername());
+		
+		if (findUser.getUsername() == null) {
+			return new ResponseDTO<>(HttpStatus.OK.value(), user.getUsername() + "회원 가입에 성공하셨습니다.");
+		}
+		
+		return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), "회원 가입에 실패하셨습니다.");
+	}
+}

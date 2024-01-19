@@ -1,0 +1,43 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>게시글 작성</title>
+</head>
+<body>
+	<jsp:include page="../layout/header.jsp"></jsp:include>
+
+	<br>
+
+	<div class="container mt-3">
+		<div>
+			<h2>게시글 작성</h2>
+			<div class="form-floating mb-3 mt-3">
+				<input type="text" class="form-control" id="title"
+					placeholder="Enter title" name="title"> <label for="title">제목</label>
+			</div>
+
+			<div class="mb-3 mt-3">
+				<textarea id="content" name="content" ></textarea>
+				<script>
+					$(document).ready(function() {
+						$("#content").summernote({
+							height : 300
+						});
+					});
+				</script>
+			</div>
+			
+			<button class="btn btn-secondary" id="btn-write">글작성</button>
+			<script src="/js/post.js"></script>
+		</div>
+	</div>
+
+	<br>
+
+	<jsp:include page="../layout/footer.jsp"></jsp:include>
+</body>
+</html>

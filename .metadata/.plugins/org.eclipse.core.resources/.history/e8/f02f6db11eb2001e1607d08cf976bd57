@@ -1,0 +1,9 @@
+let userObject = {
+	init : function() {
+		let _this = this;
+		
+		$("#reg-btn").on("click", () => {
+			_this.register();
+		});
+	}
+}

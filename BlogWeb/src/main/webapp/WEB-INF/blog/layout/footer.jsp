@@ -1,0 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div class="container text-center">
+  <h3>김포 이젠 아카데미</h3>
+  <p>전화번호 : 010-1111-2222 &nbsp;&nbsp;&nbsp; 주소 : 김포시 장기동 월드타워 10층</p>
+</div>
+</body>
+</html>
